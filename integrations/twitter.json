@@ -10,7 +10,7 @@
     "authorizationParams": {}
   },
   "request": {
-    "baseURL": "https://api.twitter.com/1.1/",
+    "baseURL": "https://api.twitter.com/",
     "headers": { "Accept": "application/json", "Authorization": "OAuth ${auth.oauth1}", "User-Agent": "Pizzly" }
   }
 }
