@@ -1,4 +1,6 @@
 # package directories
+.idea/
+
 node_modules
 jspm_packages
 .webpack
