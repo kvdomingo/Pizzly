@@ -1,6 +1,6 @@
 {
-  "name": "Google Sheets",
-  "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Google_Sheets_logo.svg/175px-Google_Sheets_logo.svg.png",
+  "name": "Google Hangouts",
+  "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Hangouts_icon.svg/1200px-Hangouts_icon.svg.png",
   "auth": {
     "authorizationURL": "https://accounts.google.com/o/oauth2/v2/auth",
     "tokenURL": "https://www.googleapis.com/oauth2/v4/token",
@@ -12,11 +12,10 @@
     }
   },
   "request": {
-    "baseURL": "https://sheets.googleapis.com/v4/spreadsheets/",
+    "baseURL": "https://chat.googleapis.com/v1/",
     "headers": {
       "Accept": "application/json",
       "Authorization": "Bearer ${auth.accessToken}",
-      "Content-Type": "application/json",
       "User-Agent": "Pizzly"
     }
   }
