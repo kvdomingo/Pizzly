@@ -1,55 +1,77 @@
-import express from 'express'
-import Bearer from '@bearer/node-agent'
-import * as routes from './routes'
+import express from "express";
+import cors from "cors";
+import Bearer from "@bearer/node-agent";
+import * as routes from "./routes";
 
-export const BUID = 'bearerUid' // TODO - What is this for?
-export const PORT = process.env.PORT || 8080
+export const BUID = "bearerUid"; // TODO - What is this for?
+export const PORT = process.env.PORT || 8080;
 
-const app = express()
+const app = express();
 
-app.set('view engine', 'ejs')
-app.set('views', './views')
-app.set('trust proxy', 1)
-app.use('/assets', express.static('./views/assets'))
+app.set("view engine", "ejs");
+app.set("views", "./views");
+app.set("trust proxy", 1);
+app.use("/assets", express.static("./views/assets"));
+
+/**
+ * CORS
+ */
+
+// const corsWhitelist = [
+//   "http://localhost:3000",
+//   "https://pizzly-test-app.vercel.app",
+// ];
+
+// const corsOptions = {
+//   origin: (origin, callback) => {
+//     if (corsWhitelist.indexOf(origin) !== -1) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Disallowed by CORS"));
+//     }
+//   },
+// };
+
+app.use(cors());
 
 /**
  * Request log
  */
 
 app.use((req, _res, next) => {
-  console.log(req.method, req.path)
-  next()
-})
+  console.log(req.method, req.path);
+  next();
+});
 
 /**
  * Project homepage
  */
 
-app.get('/', routes.home)
+app.get("/", routes.home);
 
 /**
  * API endpoints
  */
 
-app.use('/api', routes.api)
+app.use("/api", routes.api);
 
 /**
  * Authentication endpoints
  */
 
-app.use('/auth', routes.auth)
+app.use("/auth", routes.auth);
 
 /**
  * Dashboard
  */
 
-app.use('/dashboard', routes.dashboard)
+app.use("/dashboard", routes.dashboard);
 
 /**
  * Proxy feature
  */
 
-app.use('/proxy', routes.proxy)
+app.use("/proxy", routes.proxy);
 
 /**
  * Legacy endpoints
@@ -60,40 +82,40 @@ app.use('/proxy', routes.proxy)
  * so please do not rely on these endpoints anymore.
  */
 
-app.use('/v2/auth', routes.legacy.auth)
-app.use('/apis', routes.legacy.apis)
-app.use('/api/v4/functions', routes.legacy.proxy)
+app.use("/v2/auth", routes.legacy.auth);
+app.use("/apis", routes.legacy.apis);
+app.use("/api/v4/functions", routes.legacy.proxy);
 
 /**
  * Error handling
  */
 
 app.use((_req, res, _next) => {
-  res.status(404).render('errors/404')
-})
+  res.status(404).render("errors/404");
+});
 
 app.use((err, _req, res, _next) => {
-  console.error(err)
+  console.error(err);
 
-  const status = err.status && Number(err.status)
+  const status = err.status && Number(err.status);
 
   if (status && status >= 400 && status < 500) {
-    res.status(status).render('errors/' + err.status)
+    res.status(status).render("errors/" + err.status);
   } else {
-    res.status(500).render('errors/500')
+    res.status(500).render("errors/500");
   }
-})
+});
 
 /**
  * Starting up the server
  */
 
 app.listen(PORT, () => {
-  console.log('Pizzly listening on port', PORT)
+  console.log("Pizzly listening on port", PORT);
   if (PORT === 8080) {
-    console.log('http://localhost:8080')
+    console.log("http://localhost:8080");
   }
-})
+});
 
 /**
  * Optional. Initialize the Bearer agent if the environment key is provided.
@@ -105,5 +127,5 @@ app.listen(PORT, () => {
  */
 
 if (process.env.BEARER_SECRET_KEY) {
-  Bearer.init()
+  Bearer.init();
 }
