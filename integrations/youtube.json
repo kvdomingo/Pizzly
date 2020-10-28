@@ -11,7 +11,7 @@
     }
   },
   "request": {
-    "baseURL": "https://www.googleapis.com/youtube/v3/",
+    "baseURL": "https://www.googleapis.com/youtube/",
     "headers": {
       "Accept": "application/json",
       "Authorization": "Bearer ${auth.accessToken}",
